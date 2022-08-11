@@ -29,7 +29,3 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='posts'
     )
-
-
-# Укажите в модели метод __str__, 
-# чтобы при печати объекта модели Group выводилось поле title
