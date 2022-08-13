@@ -1,9 +1,8 @@
 from django.contrib import admin
-
-# Register your models here.
 from .models import Post, Group
 
 
+# @admin.register(Post, Group)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('pk', 'text', 'pub_date', 'author', 'group')
     list_editable = ('group',)

@@ -16,10 +16,11 @@ class Group(models.Model):
 class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
-
     group = models.ForeignKey(
         Group,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_DEFAULT,
+        default='4',
+        # ссылка на ID группы в качестве временного костыля
         blank=True,
         null=True,
         related_name='group'
@@ -29,3 +30,9 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='posts'
     )
+
+    def __str__(self):
+        return self.text
+ 
+    class Meta:
+        ordering = ['-pub_date']

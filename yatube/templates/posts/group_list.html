@@ -2,13 +2,9 @@
 {% block title %} {{ group.title }} {% endblock %}
       {% block content %}    
         <div class="container py-5">
-          <h1> {{ text }} </h1>
-          <p>
-            Группа тайных поклонников графа.
-          </p>
+          <h1> Все посты сообщества {{ group.title }} </h1>
             <article>
-              <h1> TEXT </h1>
-              {# ниже начинаются проблемы #}
+              <h1> {{ group.title }} </h1>
             {% for post in posts %}
                 <ul>
                   <li>
@@ -22,10 +18,9 @@
                 <p>
                   {{ post.text }}
                 </p>
-                {# {% if post.group %} #}  
-                {#  <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a> #}
-                {# {% endif %} #}
-               <a href="">все записи группы</a>
+                {% if post.group %}
+                  <a href="{% url 'posts:group' post.group.slug %}">все записи группы</a>
+                {% endif %}
                 {% if not forloop.last %} <hr> {% endif %}
             {% endfor %}
             </article>
