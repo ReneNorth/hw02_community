@@ -18,9 +18,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     group = models.ForeignKey(
         Group,
-        on_delete=models.SET_DEFAULT,
-        default='4',
-        # ссылка на ID группы в качестве временного костыля
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         related_name='group'
