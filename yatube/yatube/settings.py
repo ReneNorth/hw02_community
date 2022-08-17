@@ -13,6 +13,13 @@ DEF_NUM_POSTS = 10
 
 # Application definition
 
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'posts:index'
+
+# Post server simulation
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend' 
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,7 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posts.apps.PostsConfig'
+    'posts.apps.PostsConfig',
+    'users.apps.UsersConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
