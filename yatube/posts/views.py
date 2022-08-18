@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Group
 from yatube.settings import DEF_NUM_POSTS
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
