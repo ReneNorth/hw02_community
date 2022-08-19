@@ -168,5 +168,3 @@ print(count[heavy.__name__], 's')
 
 """
 
-import datetime
-print(datetime.today())
