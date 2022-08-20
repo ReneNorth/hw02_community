@@ -1,5 +1,3 @@
-
-from .models import Post
 from django import forms
 
 def validate_not_empty(value):

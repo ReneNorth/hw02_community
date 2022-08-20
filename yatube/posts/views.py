@@ -1,5 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from multiprocessing import context
+from tokenize import group
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group
+from .forms import PostForm
+from django.views.generic.edit import CreateView
 from yatube.settings import DEF_NUM_POSTS
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -59,9 +63,42 @@ def post_detail(request, post_id):
     return render(request, 'posts/post_detail.html', context)
 
 
+
 def post_create(request):
-    text = 'some text'
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            group = form.cleaned_data['group']
+            author = form.cleaned_data['author']
+            form.save()
+            return redirect('/about/tech/')
+        return render(request, 'posts/post_create.html', {'form': form})
+    form = PostForm()
+    return render(request, 'posts/post_create.html', {'form': form})
+
+
+
+
+"""
+class PostView(CreateView):
+    form_class = PostForm
+    template_name = 'posts/post_create.html'
+    success_url = '/about/tech'
+    # после валидации формы и создания нового поста автор должен быть
+    # перенаправлен на страницу своего профайла /profile/<username>/.
+"""
+
+
+def post_edit(request, post_id):
+    is_edit = True
+    post = get_object_or_404(Post, pk=post_id)
+    form = PostForm(instance=post)
+    
+    text = post.text
+    
     context = {
-        'text': text
+        'text': text,
     }
-    return render(request, 'posts/post_create.html', context)
+
+    return render(request, 'posts/post_edit.html', {'form': form})

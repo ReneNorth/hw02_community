@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form method="post" action="{% url 'posts:post_create' %}">
+{{ text }}
+
+<form method="post" action="../posts/create_post.html">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Отправить">
 </form> 
 
-{% endblock %}
+{% endblock content %}
