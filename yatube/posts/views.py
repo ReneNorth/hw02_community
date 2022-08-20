@@ -57,3 +57,11 @@ def post_detail(request, post_id):
         'num_of_posts': num_of_posts,
     }
     return render(request, 'posts/post_detail.html', context)
+
+
+def post_create(request):
+    text = 'some text'
+    context = {
+        'text': text
+    }
+    return render(request, 'posts/post_create.html', context)
