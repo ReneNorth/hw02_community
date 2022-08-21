@@ -63,7 +63,7 @@ def post_detail(request, post_id):
     }
     return render(request, 'posts/post_detail.html', context)
 
-
+@login_required
 def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -72,24 +72,41 @@ def post_create(request):
             post.author = request.user
             form.save()
             return redirect('posts:profile', post.author)
-        return render(request, 'about/tech.html', {'form': form})
+        return render(request, 'posts/post_create.html', {'form': form})
     form = PostForm()
     return render(request, 'posts/post_create.html', {'form': form})
 
+@login_required
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    is_edit = True
+    if post.author != request.user:
+        return redirect('posts:post_detail', post_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('posts:profile', username=post.author.username)
+        return render(request, 'posts/post_create.html', {'form': form})
+
+    form = PostForm(instance=post)
+    context = {
+        'form': form,
+        'post_id': post_id,
+        'is_edit': is_edit
+    }
+    return render(request, 'posts/post_create.html', context)
+    # return (request, 'posts/post_create.html', {'form': form}, is_edit)
+
+
+
+
+
 
 
 
 """
-class PostView(CreateView):
-    form_class = PostForm
-    template_name = 'posts/post_create.html'
-    success_url = '/about/tech'
-    # после валидации формы и создания нового поста автор должен быть
-    # перенаправлен на страницу своего профайла /profile/<username>/.
-"""
-
-
-@csrf_protect
 def post_edit(request, post_id):
     is_edit = True
     post = get_object_or_404(Post, pk=post_id)
@@ -104,3 +121,5 @@ def post_edit(request, post_id):
     }
 
     return render(request, 'posts/post_edit.html', {'form': form})
+
+"""
