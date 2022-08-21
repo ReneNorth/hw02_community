@@ -39,10 +39,10 @@
         </li>
         {% else %}
         <li class="nav-item"> 
-          <a class="nav-link link-light" href="<!--  -->">Войти</a>
+          <a class="nav-link link-light" href="{% url 'auth:login' %}">Войти</a>
         </li>
         <li class="nav-item"> 
-          <a class="nav-link link-light" href="<!--  -->">Регистрация</a>
+          <a class="nav-link link-light" href="{% url 'auth:signup' %}">Регистрация</a>
         </li>
         {% endif %}
       </ul>
