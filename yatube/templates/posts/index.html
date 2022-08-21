@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+
+
       <!-- класс py-5 создает отступы сверху и снизу блока -->
       <div class="container py-5">     
         <h1> Index / Main page {{ text|safe }} </h1>
+          
         <article>
         {% for post in page_obj %}  
           <ul>
@@ -24,4 +27,4 @@
         </article>
         {% include 'posts/includes/paginator.html' %}
       </div>  
-{% endblock %}
+{% endblock content %}

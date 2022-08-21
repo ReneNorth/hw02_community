@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_protect
 
 
 User = get_user_model()
+group_list = Group.objects.all().values_list('title', flat=True).distinct()
 
 def index(request):
     post_list = Post.objects.all().order_by('-pub_date')
@@ -20,6 +21,7 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'group_list': group_list
     }
     return render(request, 'posts/index.html', context)
 
@@ -74,7 +76,8 @@ def post_create(request):
             return redirect('posts:profile', post.author)
         return render(request, 'posts/post_create.html', {'form': form})
     form = PostForm()
-    return render(request, 'posts/post_create.html', {'form': form})
+    return render(request, 'posts/post_create.html',
+                  {'form': form, 'group_list': group_list})
 
 @login_required
 def post_edit(request, post_id):
@@ -94,7 +97,8 @@ def post_edit(request, post_id):
     context = {
         'form': form,
         'post_id': post_id,
-        'is_edit': is_edit
+        'is_edit': is_edit,
+        'group_list': group_list
     }
     return render(request, 'posts/post_create.html', context)
     # return (request, 'posts/post_create.html', {'form': form}, is_edit)
